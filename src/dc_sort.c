@@ -5,10 +5,11 @@
  *        Author: ZhiChao Dong - mars_don@163.com
  *   Description: ---
  *        Create: 2016-12-27 02:38:23
- * Last Modified: 2017-01-18 22:50:50
+ * Last Modified: 2017-02-04 16:33:25
  *
  ***************************************************/
 #include <string.h>
+#include <stdlib.h>
 
 #include "dc_sort.h"
 #include "debug.h"
