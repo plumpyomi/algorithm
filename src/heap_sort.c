@@ -5,7 +5,7 @@
  *        Author: ZhiChao Dong - mars_don@163.com
  *   Description: ---
  *        Create: 2017-02-03 19:39:06
- * Last Modified: 2017-02-04 17:53:09
+ * Last Modified: 2017-02-07 18:01:05
  *
  ***************************************************/
 
@@ -13,25 +13,6 @@
 #include "debug.h"
 
 #define CHANGE_TWO_NODE(x, y) do{(x)^=(y);(y)^=(x);(x)^=(y);}while(0)
-
-static int _exchange_with_parent(MY_TYPE* in, int node, int len)
-{
-	int parent;
-
-	if(node == 0 || node >= len)
-		return -1;
-
-	if(node%2 == 0)
-		parent = (node-2)/2;
-	else
-		parent = (node-1)/2;
-
-	if(in[parent] < in[node]){
-		CHANGE_TWO_NODE(in[node], in[parent]);
-	}
-
-	return 0;
-}
 
 static int _exchange_with_left(MY_TYPE* in, int node, int len)
 {
@@ -43,9 +24,10 @@ static int _exchange_with_left(MY_TYPE* in, int node, int len)
 
 	if(in[node] < in[left]){
 		CHANGE_TWO_NODE(in[node], in[left]);
+		return 0;
 	}
 
-	return 0;
+	return 1;
 }
 
 static int _exchange_with_right(MY_TYPE* in, int node, int len)
@@ -58,9 +40,10 @@ static int _exchange_with_right(MY_TYPE* in, int node, int len)
 
 	if(in[node] < in[right]){
 		CHANGE_TWO_NODE(in[node], in[right]);
+		return 0;
 	}
 
-	return 0;
+	return 1;
 }
 
 static int _max_heapify(MY_TYPE* in, int node, int len)
@@ -73,6 +56,37 @@ static int _max_heapify(MY_TYPE* in, int node, int len)
 	return 0;
 }
 
+static int _re_adjust_heap(MY_TYPE* in, int pos, int len)
+{
+	if(len <= 2)
+		return -1;
+
+	while(pos < len){
+		int left, right;
+
+		left = pos*2+1;
+		right= pos*2+2;
+		if(left >= len)
+			break;
+		if(right >= len && in[pos]<in[left]){
+			_exchange_with_left(in, pos, len);
+			break;
+		}
+		if(in[pos] > in[left] && in[pos] > in[right])
+			break;
+		if(in[left] > in[pos] && in[left] > in[right]){
+			_exchange_with_left(in, pos, len);
+			pos = left;
+			continue;
+		}
+		if(in[right] > in[pos] && in[right] > in[left]){
+			_exchange_with_right(in, pos, len);
+			pos = right;
+			continue;
+		}
+	}
+}
+
 static int _create_max_heap(MY_TYPE* in, int len)
 {
 	int t_node;
@@ -82,47 +96,22 @@ static int _create_max_heap(MY_TYPE* in, int len)
 	else
 		t_node = (len-2)/2;
 
-	while(t_node > 0){
-		_exchange_with_parent(in, t_node, len);
-		_exchange_with_left(in, t_node, len);
-		_exchange_with_right(in, t_node, len);
+	while(t_node >= 0){
+		int ret;
+
+		ret = _exchange_with_left(in, t_node, len);
+		if(ret == 0){
+			_re_adjust_heap(in, t_node*2+1, len);
+		}
+		ret = _exchange_with_right(in, t_node, len);
+		if(ret == 0){
+			_re_adjust_heap(in, t_node*2+2, len);
+		}
 		t_node--;
-		print_array(in, len);
+		//print_array(in, len);
 	}
-	_exchange_with_left(in, t_node, len);
-	_exchange_with_right(in, t_node, len);
 
 	return 0;
-}
-
-static int _re_adjust_heap(MY_TYPE* in, int len)
-{
-	int pos;
-
-	if(len <= 2)
-		return -1;
-
-	pos = 0;
-	while(pos < len){
-		int left, right;
-
-		left = pos*2+1;
-		right= pos*2+2;
-		if(left >= len)
-			break;
-		if(right >= len){
-			_exchange_with_left(in, pos, len);
-			pos = left;
-		}else{
-			if(in[left]>in[right]){
-				_exchange_with_left(in, pos, len);
-				pos = left;
-			}else{
-				_exchange_with_right(in, pos, len);
-				pos = right;
-			}
-		}
-	}
 }
 
 int heap_sort(MY_TYPE* in, int len)
@@ -134,10 +123,13 @@ int heap_sort(MY_TYPE* in, int len)
 	print_array(in, len);
 	pos = len-1;
 	while(pos > 1){
+		//printf("pos = %d\r\n", pos);
 		CHANGE_TWO_NODE(in[0], in[pos]);
-		_re_adjust_heap(in, pos);
+		_re_adjust_heap(in, 0, pos);
 		pos--;
 	}
+	if(in[0] > in[1])
+		CHANGE_TWO_NODE(in[0], in[1]);
 	print_array(in, len);
 
 	return 0;
