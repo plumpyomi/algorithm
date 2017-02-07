@@ -14,7 +14,9 @@
 
 void print_array(MY_TYPE* pa, int len)
 {
-	for(int i=0; i < len; ++i)
+    int i;
+
+	for(i=0; i < len; ++i)
 		printf("%d ", pa[i]);
 	printf("\r\n");
 }

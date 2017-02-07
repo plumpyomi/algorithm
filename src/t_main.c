@@ -20,10 +20,11 @@ int main(int argc, char* argv[])
 {
 	int t_a[TEST_LEN];
 	int len = TEST_LEN;
+    int i;
 
 	srand(time(0));
 	
-	for(int i=0; i<TEST_LEN; ++i)
+	for(i=0; i<TEST_LEN; ++i)
 		t_a[i] = rand()%1000;
 
 	//dc_sort(t_a, len);
