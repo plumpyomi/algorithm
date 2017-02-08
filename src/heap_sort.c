@@ -5,7 +5,7 @@
  *        Author: ZhiChao Dong - mars_don@163.com
  *   Description: ---
  *        Create: 2017-02-03 19:39:06
- * Last Modified: 2017-02-07 18:01:05
+ * Last Modified: 2017-02-08 09:36:30
  *
  ***************************************************/
 
@@ -44,16 +44,6 @@ static int _exchange_with_right(MY_TYPE* in, int node, int len)
 	}
 
 	return 1;
-}
-
-static int _max_heapify(MY_TYPE* in, int node, int len)
-{
-	int l, r;
-	
-	l = node*2+1;
-	r = node*2+2;
-
-	return 0;
 }
 
 static int _re_adjust_heap(MY_TYPE* in, int pos, int len)
@@ -97,16 +87,7 @@ static int _create_max_heap(MY_TYPE* in, int len)
 		t_node = (len-2)/2;
 
 	while(t_node >= 0){
-		int ret;
-
-		ret = _exchange_with_left(in, t_node, len);
-		if(ret == 0){
-			_re_adjust_heap(in, t_node*2+1, len);
-		}
-		ret = _exchange_with_right(in, t_node, len);
-		if(ret == 0){
-			_re_adjust_heap(in, t_node*2+2, len);
-		}
+		_re_adjust_heap(in, t_node, len);
 		t_node--;
 		//print_array(in, len);
 	}
