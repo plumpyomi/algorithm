@@ -5,14 +5,13 @@
  *        Author: ZhiChao Dong - mars_don@163.com
  *   Description: ---
  *        Create: 2017-02-03 19:39:06
- * Last Modified: 2017-02-08 09:36:30
+ * Last Modified: 2017-02-20 16:28:58
  *
  ***************************************************/
 
 #include "heap_sort.h"
 #include "debug.h"
-
-#define CHANGE_TWO_NODE(x, y) do{(x)^=(y);(y)^=(x);(x)^=(y);}while(0)
+#include "public.h"
 
 static int _exchange_with_left(MY_TYPE* in, int node, int len)
 {
