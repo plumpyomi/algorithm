@@ -5,13 +5,21 @@
  *        Author: ZhiChao Dong - mars_don@163.com
  *   Description: ---
  *        Create: 2017-03-13 17:31:41
- * Last Modified: 2017-03-14 14:32:22
+ * Last Modified: 2017-03-14 17:05:47
  *
  ***************************************************/
 #ifndef _AVL_TREE_H_
 #define _AVL_TREE_H_
 
 #include "m_type.h"
+
+typedef enum {
+	UNDEFINED,
+	L_ROTATE,
+	R_ROTATE,
+	R_L_ROTATE,
+	L_R_ROTATE
+} rotate_type_t;
 
 typedef struct avl_tree_node{
 	MY_TYPE	val;

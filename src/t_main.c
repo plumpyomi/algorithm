@@ -5,7 +5,7 @@
  *        Author: ZhiChao Dong - mars_don@163.com
  *   Description: ---
  *        Create: 2017-01-11 21:49:09
- * Last Modified: 2017-03-14 14:44:51
+ * Last Modified: 2017-03-14 16:56:12
  *
  ***************************************************/
 #include <stdio.h>
@@ -17,7 +17,7 @@
 #include "quick_sort.h"
 #include "avl_tree.h"
 
-#define TEST_LEN	6
+#define TEST_LEN	12
 
 int main(int argc, char* argv[])
 {
